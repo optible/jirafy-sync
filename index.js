@@ -31,7 +31,7 @@ async function syncChangelogToJira(changelog, jiraVersion) {
     core.info(`jiraVersion is: ${jiraVersion}`)
     core.info(`changelog is: ${changelog}`)
 
-    createVersionAndUpdateFixVersions(changelog, jiraVersion)
+    await createVersionAndUpdateFixVersions(changelog, jiraVersion)
   } catch (err) {
     core.setFailed(`Jirafy Sync failed: ${err.message}`)
     process.exit(0)

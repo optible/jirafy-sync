@@ -8,13 +8,7 @@ inputs:
   jiraVersion:
     description: 'The Jira version & fix version to create & set'
     required: true
-  jiraHost:
-    description: 'Jira host name (i.e example.atlassian.net)'
-    required: true
-  jiraUsername:
-    description: 'Jira username'
-    required: true
-  jiraToken:
+  webhookUrl:
     description: 'Personal Access Token from Jira in lieu of password'
     required: true
 
