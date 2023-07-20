@@ -17,7 +17,7 @@ function parseChangelogForJiraTickets(changelog) {
     core.setFailed(error.message)
   }
 
-  const duplicates = tickets.map((m) => m[0])
+  const duplicates = tickets.map((m) => `"${m[0]}"`)
 
   return [...new Set(duplicates)]
 }

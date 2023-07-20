@@ -57923,7 +57923,7 @@ function parseChangelogForJiraTickets(changelog) {
     core.setFailed(error.message)
   }
 
-  const duplicates = tickets.map((m) => m[0])
+  const duplicates = tickets.map((m) => `"${m[0]}"`)
 
   return [...new Set(duplicates)]
 }
@@ -58126,7 +58126,8 @@ async function setIssueProperties(issueId, issueUpdate) {
 }
 
 async function sendWebHookRequest(version, issues) {
-  const body = `{"issues": ${issues}, "version": "${version}}`
+  const body = `{"issues": [${issues.join(",")}], "version": "${version}"}`;
+  console.log(body);
   return await fetch(webhookUrl, {
     method: 'POST',
     headers: fetchHeader,
@@ -58146,14 +58147,11 @@ async function createVersionAndUpdateFixVersions(changelog, version) {
   const tickets = parseChangelogForJiraTickets(changelog)
   // Remove duplicate projects
   const projects = [...new Set(getProjectNameByTicket(tickets))]
-  version = parseForVersion(version)
-
   console.log('\x1b[32m%s\x1b[0m', `Projects are: ${projects}`)
   console.log('\x1b[32m%s\x1b[0m', `Tickets are: ${tickets}`)
 
   try {
-    const ticketsId = tickets.map((ticket) => `"${ticket}"`)
-    await sendWebHookRequest(version, ticketsId)
+    await sendWebHookRequest(version, tickets)
 
     // Create a jira version for each project
     // projects.forEach(async (project) => {
